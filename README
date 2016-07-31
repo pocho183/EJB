@@ -1,0 +1,70 @@
+How to build a simple EJB ? Using IDE Netbeans.
+
+CREATING OF AN INTERFACE
+
+Choose File > New Project and select Java Class Library in the Java category. Click Next. 
+Type EJBInterface for the Project Name. Click Finish.
+
+When you click Finish, the IDE creates a Java Class Library project. 
+In the next section you will create a Java EE enterprise application and an EJB module. 
+You will then use a wizard to create a session bean and the remote interface for your session bean in the Class Library project. 
+The application client will access the session bean via the interface in the class library.
+
+CREATING OF AN EJB
+
+Choose File > New Project and select Enterprise Application in the Java EE category. Click Next. 
+Type EJBHello for the Project Name. Click Next. Select GlassFish Server for the Server. 
+Confirm that Create EJB Module is selected and deselect Create Web Application Module. Click Finish.
+
+-Creating of the Session Bean:
+
+Right-click the EJB module project and choose New > Session Bean. 
+Type SessionBean for the EJB Name. Type ejb for the Package. 
+Select Stateless for the Session Type. Select the Remote option for Create Interface. 
+Select the EJBInterface project from the dropdown list. Click Finish. 
+Open the file SessionBean and copy this code:
+
+package com.EJBexample; import javax.ejb.Stateless;
+
+@Stateless public class SessionBean implements SessionBeanRemote {
+
+public String HelloWorld() {
+    return "Hello EJB World !!! ";
+}
+}
+
+Automatically, the IDE will set this code for the interface:
+
+package com.EJBexample; import javax.ejb.Remote;
+
+@Remote public interface SessionBeanRemote {
+
+String HelloWorld();
+}
+
+CREATING OF THE CLIENT 
+
+Choose File > New Project and select Enterprise Application Client in the Java EE category. Click Next. 
+Type EJBClient for the Project Name. Click Next. 
+Select GlassFish Server for the Server. Click Finish. 
+After then: 
+
+Expand the Source Packages node of the EJBClient project and open Main.java in the editor. 
+Right-click in the source code and choose Insert Code and select Call Enterprise Bean to open the Call Enterprise Bean dialog. 
+Expand the EJBClient project node and select SessionBean. Click OK.
+
+The code:
+
+package ejbclient; import com.EJBexample.SessionBeanRemote; import javax.ejb.EJB;
+
+public class Main {
+
+@EJB
+private static SessionBeanRemote sessionBean;
+
+public static void main(String[] args) {
+    System.err.println("output = " + sessionBean.HelloWorld());
+}
+}
+
+RUN the client
